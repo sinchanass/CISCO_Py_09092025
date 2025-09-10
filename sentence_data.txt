@@ -1,0 +1,2 @@
+List:['I', 'am', 'Sinchana'] 
+Tuple : ('I', 'AM', 'SINCHANA')

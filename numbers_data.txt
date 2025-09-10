@@ -1,0 +1,2 @@
+SUM: 60
+Average: 20.0
