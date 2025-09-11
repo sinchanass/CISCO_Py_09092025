@@ -1,11 +1,12 @@
+
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, String, Integer, Float, Boolean
 
-Base = declarative_base() #model base claass
+Base = declarative_base() # model base class
 
-#models
-class Employee(Base):
-    __tablename__ ="employees"
+# models
+class Employee(Base): # our model class defined from ORM
+    __tablename__ = "employees"
     id = Column(Integer, primary_key = True)
     name = Column(String(255), nullable = False)
     age = Column(Integer, nullable = False)
@@ -13,7 +14,4 @@ class Employee(Base):
     is_active = Column(Boolean, nullable = False)
 
     def __repr__(self):
-        return f"[id={self.id}, name={self.name}, age={self.age}, salary={self.salary}, is_active={self.is_active}]"
-
-
-
+        return f'[id={self.id}, name={self.name}, age={self.age}, salary={self.salary}]'
