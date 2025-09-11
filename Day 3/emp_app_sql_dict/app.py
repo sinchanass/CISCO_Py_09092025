@@ -1,5 +1,4 @@
-
-import repo_json_dict as repo
+import repo_dict_sql as repo
 
 def menu():
     message = '''

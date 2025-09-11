@@ -1,43 +1,51 @@
-import db_json as db 
+from db_setup import session, Employee
 #CRUD (Create, Read All | Read One, Update, Delete)
-#Employee App - JSON Persistent Store (DB) - dict element
-file_name = 'employees.json' 
-employees = db.read_from_file(file_name) #[] # [{'id':id,'name':name,'age':age,'salary':salary,'is_active':is_active}, ...]
+#Employee App - dict element
 
 def create_employee(employee):
-    global employees 
-    employees.append(employee)
-    db.write_to_file(employees, file_name)
+    employee_model = Employee(
+        id = employee['id'],
+        name = employee['name'],
+        age = employee['age'],
+        salary = employee['salary'],
+        is_active = employee['is_active']
+    )
+    session.add(employee_model) #INSERT stmt db
+    session.commit()
 
 def read_all_employee():
-    return employees 
+    employees = session.query(Employee).all()
+    dict_employees = []
+    for employee in employees:
+        employee_dict = {'id':employee.id,'name':employee.name,'age':employee.age,'salary':employee.salary,'is_active':employee.is_active}
+        dict_employees.append(employee_dict)
+    return dict_employees 
+
+def read_model_by_id(id):
+    employee = session.query(Employee).filter_by(id=id).first()
+    return employee
 
 def read_by_id(id):
-    for employee in employees:
-        if employee['id'] == id:
-            return employee 
-    return None 
+    employee = read_model_by_id(id)
+    if employee == None:
+        return None
+    employee_dict = {'id':employee.id,'name':employee.name,'age':employee.age,'salary':employee.salary,'is_active':employee.is_active}
+    return employee_dict 
+    
 
 def update(id, new_employee):#new_employee is update at id
-    global employees
-    I = 0
-    for employee in employees:
-        if employee['id'] == id:
-            employees[I] = new_employee
-            db.write_to_file(employees, file_name)
-            break 
-        I += 1
+    employee = read_model_by_id(id)
+    if not employee:
+        return
+    employee.salary = new_employee['salary']
+    session.commit()
     
+
 def delete_employee(id):
-    global employees
-    index = -1
-    I = 0
-    for employee in employees:
-        if employee['id'] == id:
-            index = I
-            break 
-        I += 1
-    if index != -1:
-        employees.pop(index)
-        db.write_to_file(employees, file_name)
-        
+    employee = read_model_by_id(id)
+    if not employee:
+        return
+    session.delete(employee)
+    session.commit()
+    
+
