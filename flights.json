@@ -1,0 +1,11 @@
+[
+    {
+        "id": 1,
+        "number": "AI101",
+        "airline_name": "Air India",
+        "seats": 180,
+        "price": 6500,
+        "source": "Delhi",
+        "destination": "Mumbai"
+    }
+]
